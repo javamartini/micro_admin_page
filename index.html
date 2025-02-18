@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micro Weather App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/united/bootstrap.min.css" integrity="sha384-JW3PJkbqVWtBhuV/gsuyVVt3m/ecRJjwXC3gCXlTzZZV+zIEEl6AnryAriT7GWYm" crossorigin="anonymous">
+</head>
+<body class="bg-dark">
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <form class="card card-primary col-12 col-md-7 col-lg-8 mt-5" id="frmWeather">
+            <div class="card-body">
+                <h2 class="text-center mb-0">Micro Weather Service</h2>
+                <p class="text-center mt-1">The data is courtesy of Open-Meteo Weather Forecast.</p>
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-primary" id="btnToday">Today</button>
+                    <button type="button" class="btn btn-primary" id="btnTomorrow">Tomorrow</button>
+                    <button type="button" class="btn btn-primary" id="btnSeven">7 Days</button>
+                </div>
+                <hr />
+                <div class="card col-12 mt-2 border-0" id="divToday">
+                    <h3 class="text-center">Today's Weather Summary</h3>
+                </div>
+                <div class="card col-12 mt-2 border-0" id="divTomorrow" style="display:none">
+                    <h3 class="text-center">Tomorrow's Weather Summary</h3>
+                </div>
+                <div class="card col-12 mt-2 border-0" id="divSeven" style="display:none">
+                    <h3 class="text=center">Weather Summary for the Next Seven Days</h3>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="javascript/app.js"></script>
+</body>
+</html>
