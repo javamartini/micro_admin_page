@@ -8,26 +8,23 @@
 </head>
 <body class="bg-dark">
     <div class="d-flex justify-content-center align-items-center">
-        <form class="card card-primary col-12 col-md-7 col-lg-8 mt-5" id="frmWeather">
+        <form class="card card-primary col-12 col-md-8 col-lg-8 mt-5" id="frmWeather">
             <div class="card-body">
                 <h2 class="text-center mb-0">Micro Weather Service</h2>
                 <div class="text-center mb-2">
                     <a href="https://open-meteo.com/">Weather data by Open-Meteo.com</a>
                 </div>
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-primary" id="btnToday">Today</button>
-                    <button type="button" class="btn btn-primary" id="btnTomorrow">Tomorrow</button>
-                    <button type="button" class="btn btn-primary" id="btnSeven">7 Days</button>
-                </div>
                 <hr />
-                <div class="card col-12 mt-2 border-0" id="divToday">
-                    <h3 class="text-center">Today's Weather Summary</h3>
-                </div>
-                <div class="card col-12 mt-2 border-0" id="divTomorrow" style="display:none">
-                    <h3 class="text-center">Tomorrow's Weather Summary</h3>
-                </div>
-                <div class="card col-12 mt-2 border-0" id="divSeven" style="display:none">
-                    <h3 class="text=center">Weather Summary for the Next Seven Days</h3>
+                <div class="d-flex justify-content-between">
+                    <div class="card col-12 mt-2 border-0" id="divToday">
+                        <h3 class="text-center">Hourly Weather Summary</h3>
+                        <div class="row">
+                            <div class="col-6" id="divTodayHourly">
+                            </div>
+                            <div class="col-6" id="divTodayTemp">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
