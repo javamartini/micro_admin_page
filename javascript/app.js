@@ -4,6 +4,16 @@ let linkLatitude = ""
 let linkLongitude = ""
 let strHTML = ""
 
+document.querySelector('#btnSettings').addEventListener('click', function() {
+    document.querySelector('#frmWeather').style.display = 'none'
+    document.querySelector('#frmWeatherSettings').style.display = 'block'
+})
+
+document.querySelector('#btnWeather').addEventListener('click', function() {
+    document.querySelector('#frmWeatherSettings').style.display = 'none'
+    document.querySelector('#frmWeather').style.display = 'block'
+})
+
 getCurrent()
 
 //we need the latitude and longitude to append to the URL
@@ -24,11 +34,15 @@ function showPosition(position) {
     console.log("Latitude: " + position.coords.latitude)
 } 
 
+async function getData() {
+
+}
+
 //hourly 24-hour forecast, for divToday
 async function getCurrent() {
     try
     {
-        const objResponse = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35.9606&longitude=-85.8141&current=temperature_2m,precipitation,weather_code&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FChicago&forecast_days=1') //response, not data
+        const objResponse = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35.9606&longitude=-85.8141&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FChicago&forecast_days=1') //response, not data
         if(!objResponse.ok) {
             throw new Error(`HTTP Error Status: ${objResponse.status}`)
         }
@@ -59,6 +73,12 @@ async function getCurrent() {
         const wmoCode = current.weather_code
         weatherCode(wmoCode)
         document.querySelector("#divCurrentCode").innerHTML = strHTML
+
+        //for "how it feels" column in divCurrent
+        strHTML = "" //resetting variable
+        const tempFeel = current.apparent_temperature 
+        strHTML += `<p>how it feels<br></p><h4>${tempFeel}°F</h4>`
+        document.querySelector('#divCurrentFeel').innerHTML = strHTML
 
     } catch (objError) { // if open-meteo is currently unavailable
         console.log('Error fetching objData', objError)
