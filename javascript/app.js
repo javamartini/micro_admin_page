@@ -7,10 +7,9 @@ let strHTML = ""
 getCurrent()
 
 //we need the latitude and longitude to append to the URL
-function getLocation()
-{
+function getLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition)
+        navigator.geolocation.getCurrentPosition(showPosition)
       
     } else {
         console.log("Geolocation is not supported by this browser.")
@@ -18,8 +17,7 @@ function getLocation()
     }
 }
 
-function showPosition(position)
-{
+function showPosition(position) {
     linkLatitude = 'latitude=' + position.coords.latitude + '&'
     linkLongitude = 'longitude=' + position.coords.longitude + '&'
     // document.querySelector('#divToday').innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
@@ -27,13 +25,11 @@ function showPosition(position)
 } 
 
 //hourly 24-hour forecast, for divToday
-async function getCurrent()
-{
+async function getCurrent() {
     try
     {
         const objResponse = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35.9606&longitude=-85.8141&current=temperature_2m,precipitation,weather_code&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FChicago&forecast_days=1') //response, not data
-        if(!objResponse.ok)
-        {
+        if(!objResponse.ok) {
             throw new Error(`HTTP Error Status: ${objResponse.status}`)
         }
 
@@ -63,9 +59,8 @@ async function getCurrent()
         const wmoCode = current.weather_code
         weatherCode(wmoCode)
         document.querySelector("#divCurrentCode").innerHTML = strHTML
-    }
-    catch (objError)
-    {
+
+    } catch (objError) { // if open-meteo is currently unavailable
         console.log('Error fetching objData', objError)
         Swal.fire({
             title: "Oh no! There seems to have been an error.",
@@ -75,10 +70,9 @@ async function getCurrent()
     }
 }
 
-function weatherCode(wmoCode)
-{ //the only reason this was so long was because every HTML output is different here. writing this was awful
-    switch (wmoCode)
-    {
+function weatherCode(wmoCode) { 
+    //the only reason this was so long was because every HTML output is different here. writing this was awful
+    switch (wmoCode) {
         case 0: //clear sky
             strHTML = "<i class='bi bi-sun-fill' style='font-size: 2rem; color: yellow;'></i><br>"
             strHTML += "<p text-center>clear skies</p>"
