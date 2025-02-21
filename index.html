@@ -6,6 +6,11 @@
     <title>Micro Weather App</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css" integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .btn-check {
+            display: none !important;
+        }
+    </style>
 </head>
 <body class="bg-primary">
     <div class="d-flex justify-content-center align-items-center">
@@ -14,6 +19,9 @@
                 <h2 class="text-center mb-0">Micro Weather Service</h2>
                 <div class="text-center mb-2">
                     <a href="https://open-meteo.com/">Weather data by Open-Meteo.com</a>
+                    <div class="text-center mt-3">
+                        <button type="button" class="btn btn-primary col-8" id="btnSettings">Weather Settings</button>
+                    </div>
                 </div>
                 <hr />
                 <div class="d-flex justify-content-between">
@@ -40,6 +48,14 @@
                     <button type="button" class="btn btn-primary col-8 mt-3" id="btnWeather">Back to Weather Info</button>
                 </div>
                 <hr />
+                <!--<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                    <input type="checkbox" class="btn-check" id="btncheck1" checked autocomplete="off">
+                    <label class="btn btn-primary" for="btncheck1">Checkbox 1</label>
+                    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+                    <label class="btn btn-primary" for="btncheck2">Checkbox 2</label>
+                    <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
+                    <label class="btn btn-primary" for="btncheck3">Checkbox 3</label>
+                </div>-->
             </div>
         </form>
     </div>

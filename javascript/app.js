@@ -4,6 +4,20 @@ let linkLatitude = ""
 let linkLongitude = ""
 let strHTML = ""
 
+document.querySelector('#btnSettings').addEventListener('click', function() {
+    document.querySelector('#frmWeather').style.display = 'none'
+    document.querySelector('#frmWeatherSettings').style.display = 'block'
+})
+
+document.querySelector('#btnWeather').addEventListener('click', function() {
+    document.querySelector('#frmWeatherSettings').style.display = 'none'
+    document.querySelector('#frmWeather').style.display = 'block'
+})
+
+async function getData() {
+
+}
+
 getCurrent()
 
 //we need the latitude and longitude to append to the URL
