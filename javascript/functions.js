@@ -14,11 +14,9 @@ document.querySelector('#btnWeather').addEventListener('click', function() {
     document.querySelector('#frmWeather').style.display = 'block'
 })
 
-async function getData() {
+async function getWeatherData() {
 
 }
-
-getCurrent()
 
 //we need the latitude and longitude to append to the URL
 function getLocation() {
@@ -194,23 +192,105 @@ function weatherCode(wmoCode) {
     } //this is the worst day of my life
 }
 
-// //hourly 24-hour forecast, for divToday
-// fetch('https://api.open-meteo.com/v1/forecast?latitude=35.9606&longitude=-85.8141&hourly=temperature_2m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FChicago&forecast_days=1') //fetch promise
-// .then(objResponse => objResponse.json()) //convert the response to JSON
-// .then(objData => {
-//     let strHTML = '<ul>'
-//     objData.hourly.temperature_2m.forEach(function(temp, hour){
-//         strHTML += `<li>Hour ${hour}: ${temp}°F</li>`
-//     })
-//     strHTML += '</ul>'
-//     document.querySelector('#divToday').innerHTML = strHTML
-// })
-// .catch(objError => { //This little trick, .catch, was something cool I found. It's description denotes it is used specifically for this purpose.
-//     console.log('Error fetching objData', objError)
-//     strMessage += "<p>Open-Meteo data is currently unavailable right now. Please try again later!</p>"
-//     Swal.fire({
-//         title: "Oh no! There seems to have been an error.",
-//         html: strMessage,
-//         icon: "error"
-//     });
-// })
+//for user temp settings stored in local storage
+function setUserTempSettings() {
+    let strTempMeasure = localStorage.getItem("tempMeasure")
+
+    if (strTempMeasure == "fahrenheit") { //if fahrenheit, change to celsius
+        strTempMeasure = "celsius"
+    } else { //if celsius, change to fahrenheit
+        strTempMeasure = "fahrenheit"
+    }
+
+    if (strTempMeasure == "fahrenheit" || strTempMeasure == "celsius") {
+        Swal.fire ({ //letting the user know their selection is saved
+            position: "center",
+            icon: "success",
+            title: "Your selection has been saved",
+            showConfirmButton: false,
+            timer: 1500
+        })
+    } else { //shouldn't happen, but just in case, it is still important feedback
+        Swal.fire ({
+            position: "center",
+            icon: "error",
+            title: "Error! Something went wrong.",
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+
+    localStorage.setItem("tempMeasure", strTempMeasure) //setting new temp measure
+}
+
+function setUserPrecipSettings() {
+    let strPrecipMeasure = localStorage.getItem("precipMeasure")
+
+    if (strPrecipMeasure == "inch") { //if inches, change to millimeters
+        strPrecipMeasure = "millimeters"
+    } else { //if millimeters, change to inches
+        strPrecipMeasure = "inch"
+    }
+
+    if (strPrecipMeasure == "inch" || strPrecipMeasure == "millimeters") {
+        Swal.fire ({ //letting the user know their selection is saved
+            position: "center",
+            icon: "success",
+            title: "Your selection has been saved",
+            showConfirmButton: false,
+            timer: 1500
+        })
+    } else { //shouldn't happen, but just in case, it is still important feedback
+        Swal.fire ({
+            position: "center",
+            icon: "error",
+            title: "Error! Something went wrong.",
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+
+    localStorage.setItem("precipMeasure", strPrecipMeasure) //setting new precip measure
+} 
+
+//will grab user settings. if none, then it will use create default values for local storage
+function getUserSettings() {
+    let strTempMeasure = localStorage.getItem("tempMeasure")
+    if (strTempMeasure === null) { //=== for equal value and equal type
+        strTempMeasure = "fahrenheit" //fahrenheit, default value
+        localStorage.setItem("tempMeasure", strTempMeasure)
+    }
+
+    let strPrecipMeasure = localStorage.getItem("precipMeasure")
+    if (strPrecipMeasure === null) {
+        strPrecipMeasure = "inch" //inches, default value
+        localStorage.setItem("precipMeasure", strPrecipMeasure)
+    }
+}
+
+//will clear user's local storage of settings
+function clearUserSettings() {
+    localStorage.clear()
+
+    // I figure a good way to test if there is still local storage is to try and get some
+    // that should not exist after clearing local storage. This is more of a user assurance thing
+    // because I can not foresee why this would not work.
+    if (localStorage.getItem("tempMeasure") === "fahrenheit" || localStorage.getItem("tempMeasure") === "celsius" ||
+        localStorage.getItem("precipMeasure") === "inch" || localStorage.getItem("precipMeasure") === "millimeters") {
+        Swal.fire ({
+            position: "center",
+            icon: "error",
+            title: "Error! Something went terribly wrong.",
+            showConfirmButton: false,
+            timer: 1500
+        })
+    } else {
+        Swal.fire ({
+            position: "center",
+            icon: "success",
+            title: "Successfully cleared user settings!",
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+}
