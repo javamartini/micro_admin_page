@@ -1,47 +1,75 @@
 // Global Variables
-// const baseURL = 'https://api.open-meteo.com/v1/forecast?'
-let linkLatitude = ""
-let linkLongitude = ""
 let strHTML = ""
+// End Global Variables
 
-document.querySelector('#btnSettings').addEventListener('click', function() {
-    document.querySelector('#frmWeather').style.display = 'none'
-    document.querySelector('#frmWeatherSettings').style.display = 'block'
-})
+//we need the latitude, longitude, and timezone to append to the URL
+async function gatherData() {
+    //initializing variables for function scope
+    let floLatitude = 0.0
+    let floLongitude = 0.0
+    let strTimezone = "" 
 
-document.querySelector('#btnWeather').addEventListener('click', function() {
-    document.querySelector('#frmWeatherSettings').style.display = 'none'
-    document.querySelector('#frmWeather').style.display = 'block'
-})
+    if (navigator.geolocation) { //IF ALLOWED, will gather accurate location
+        navigator.geolocation.getCurrentPosition(async function(position) {
+            floLatitude = position.coords.latitude
+            floLongitude = position.coords.longitude
 
-async function getWeatherData() {
+            //this is for timezone capture via TimezoneDB
+            const objResponse = await fetch(`http://api.timezonedb.com/v2.1/get-time-zone?key=GSWUCIUB70IF&format=json&by=position&lat=${floLatitude}&lng=${floLongitude}`)
 
-}
+            if (!objResponse.ok) {
+                throw new Error(`HTTP Error Status: ${objResponse.status}`)
+            } else { //if no errors, gather data
+                const objData = await objResponse.json()
+                strTimezone = encodeURIComponent(objData.zoneName) //changes "America\/Chicago to America%2FChicago"
+            }
 
-//we need the latitude and longitude to append to the URL
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition)
-      
-    } else {
-        console.log("Geolocation is not supported by this browser.")
-        strMessage += "Geolocation is not supported by this browser."
+            //if the function isn't called within the if else conditional we will accidentally create a race condition
+            getWeatherData(floLatitude, floLongitude, strTimezone)
+        },
+
+        async function error(err) { //IF DENIED, we will gather less accurate location via IP.
+            console.warn(`ERROR(${err.code}): ${err.message}, switching to location by IP`)
+            Swal.fire({ //notifying the user of location via IP
+                title: "Location sharing denied",
+                text: "Defaulting to broad location via IP address",
+                icon: "error"
+            });
+
+            //using https://ipapi.co api for ip geolocation service
+            const objResponse = await fetch("https://ipapi.co/json/")
+
+            if (!objResponse.ok) {
+                throw new Error(`HTTP Error Status: ${objResponse.status}`)
+            } else { //if no errors, gather data
+                const objData = await objResponse.json()
+                floLatitude = objData.latitude
+                floLongitude = objData.longitude
+                strTimezone = encodeURIComponent(objData.timezone) //changes "America/Chicago to America%2FChicago"
+            }
+
+            //if the function isn't called within the if else conditional we will accidentally create a race condition
+            getWeatherData(floLatitude, floLongitude, strTimezone)
+            })
+
+    } else { //will play if the browser does not support geolocation
+        console.log("Broswer does not support geolocation")
+        Swal.fire({
+            title: "Oh no! There seems to have been an error.",
+            text: "Sorry, but your browser does not seem to support geolocation sharing!",
+            icon: "error"
+        });
     }
 }
 
-function showPosition(position) {
-    linkLatitude = 'latitude=' + position.coords.latitude + '&'
-    linkLongitude = 'longitude=' + position.coords.longitude + '&'
-    // document.querySelector('#divToday').innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
-    console.log("Latitude: " + position.coords.latitude)
-} 
+// will gather all necessary weather data for website. called in gatherData()
+async function getWeatherData(floLatitude, floLongitude, strTimezone) {
+    const strWeatherAPIURL = `https://api.open-meteo.com/v1/forecast?latitude=${floLatitude}&longitude=${floLongitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code&timezone=${strTimezone}&forecast_days=1`
 
-//hourly 24-hour forecast, for divToday
-async function getCurrent() {
-    try
-    {
-        const objResponse = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35.9606&longitude=-85.8141&current=temperature_2m,precipitation,weather_code&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FChicago&forecast_days=1') //response, not data
-        if(!objResponse.ok) {
+    try {
+        const objResponse = await fetch(strWeatherAPIURL)
+
+        if (!objResponse.ok) {
             throw new Error(`HTTP Error Status: ${objResponse.status}`)
         }
 
@@ -79,7 +107,7 @@ async function getCurrent() {
             text: "Open-Meteo data is currently unavailable right now. Please try again later!",
             icon: "error"
         });
-    }
+    } 
 }
 
 function weatherCode(wmoCode) { 
@@ -192,6 +220,16 @@ function weatherCode(wmoCode) {
     } //this is the worst day of my life
 }
 
+document.querySelector('#btnSettings').addEventListener('click', function() {
+    document.querySelector('#frmWeather').style.display = 'none'
+    document.querySelector('#frmWeatherSettings').style.display = 'block'
+})
+
+document.querySelector('#btnWeather').addEventListener('click', function() {
+    document.querySelector('#frmWeatherSettings').style.display = 'none'
+    document.querySelector('#frmWeather').style.display = 'block'
+})
+
 //for user temp settings stored in local storage
 function setUserTempSettings() {
     let strTempMeasure = localStorage.getItem("tempMeasure")
@@ -223,6 +261,7 @@ function setUserTempSettings() {
     localStorage.setItem("tempMeasure", strTempMeasure) //setting new temp measure
 }
 
+// for user precip settings stored in local storage
 function setUserPrecipSettings() {
     let strPrecipMeasure = localStorage.getItem("precipMeasure")
 

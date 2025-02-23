@@ -1,6 +1,6 @@
 getUserSettings()
 
-getCurrent()
+gatherData()
 
 //for user temp settings
 document.querySelector("#btnTempMeasure").addEventListener("click", setUserTempSettings)
