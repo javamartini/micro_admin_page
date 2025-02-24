@@ -1,7 +1,3 @@
-// Global Variables
-let strHTML = ""
-// End Global Variables
-
 //we need the latitude, longitude, and timezone to append to the URL
 async function gatherData() {
     //initializing variables for function scope
@@ -79,36 +75,38 @@ async function getWeatherData(floLatitude, floLongitude, strTimezone) {
         const currentMeasure = objData.current_units
 
         //for time column in divCurrent
-        strHTML = "" //resetting variable
         const time = current.time.slice(11,17);
-        strHTML += `<h4>${time}</h4>`
-        document.querySelector("#divCurrentTime").innerHTML = strHTML
+        document.querySelector("#txtCurrentTime").innerHTML = `<h4>${time}</h4>`
 
         //for temp column in divCurrent
-        strHTML = "" //resetting variable
         const temp = current.temperature_2m
         const tempUnit = currentMeasure.temperature_2m
-        strHTML += `<h4>${temp}${tempUnit}</h4>`
-        document.querySelector("#divCurrentTemp").innerHTML = strHTML
+        document.querySelector("#txtCurrentTemp").innerHTML = `<h4>${temp}${tempUnit}</h4>`
 
         //for precipitation column in divCurrent
-        strHTML = "" //resetting variable
         const precip = current.precipitation
         const precipMeasure = currentMeasure.precipitation
 
         if (precipMeasure == "inch") { //this condition is purely for formatting purposes. 
-            strHTML += `<h4>${precip} inches</h4>`
+            document.querySelector("#txtCurrentPrecip").innerHTML = `<h4>${precip} inches</h4>`
         } else {
-            strHTML += `<h4>${precip} ${precipMeasure}</h4>`
+            document.querySelector("#txtCurrentPrecip").innerHTML = `<h4>${precip} ${precipMeasure}</h4>`
         }
 
-        document.querySelector("#divCurrentPrecip").innerHTML = strHTML
-
         //for weather code column in divCurrent
-        strHTML = "" //resetting variable
         const wmoCode = current.weather_code
         weatherCode(wmoCode)
         document.querySelector("#divCurrentCode").innerHTML = strHTML
+        
+        //for how it feels temperature
+        const apparentTemp = current.apparent_temperature
+        const appTempFeel = currentMeasure.apparent_temperature
+        document.querySelector("#txtCurrentFeel").innerHTML = `<h4>${apparentTemp}${appTempFeel}</h4>`
+
+        //for relative humidity
+        const humid = current.relative_humidity_2m
+        const humidMeasure = currentMeasure.relative_humidity_2m
+        document.querySelector("#txtCurrentHumid").innerHTML = `<h4>${humid}${humidMeasure}</h4>`
 
     } catch (objError) { // if open-meteo is currently unavailable
         console.log('Error fetching objData', objError)
