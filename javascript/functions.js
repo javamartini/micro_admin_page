@@ -64,7 +64,7 @@ async function gatherData() {
 
 // will gather all necessary weather data for website. called in gatherData()
 async function getWeatherData(floLatitude, floLongitude, strTimezone) {
-    const strWeatherAPIURL = `https://api.open-meteo.com/v1/forecast?latitude=${floLatitude}&longitude=${floLongitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code&timezone=${strTimezone}&forecast_days=1`
+    const strWeatherAPIURL = `https://api.open-meteo.com/v1/forecast?latitude=${floLatitude}&longitude=${floLongitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code&timezone=${strTimezone}&forecast_days=1&temperature_unit=${localStorage.getItem("tempMeasure")}&wind_speed_unit=mph&precipitation_unit=${localStorage.getItem("precipMeasure")}`
 
     try {
         const objResponse = await fetch(strWeatherAPIURL)
@@ -76,8 +76,10 @@ async function getWeatherData(floLatitude, floLongitude, strTimezone) {
         //gathering data
         const objData = await objResponse.json() 
         const current = objData.current
+        const currentMeasure = objData.current_units
 
         //for time column in divCurrent
+        strHTML = "" //resetting variable
         const time = current.time.slice(11,17);
         strHTML += `<h4>${time}</h4>`
         document.querySelector("#divCurrentTime").innerHTML = strHTML
@@ -85,13 +87,21 @@ async function getWeatherData(floLatitude, floLongitude, strTimezone) {
         //for temp column in divCurrent
         strHTML = "" //resetting variable
         const temp = current.temperature_2m
-        strHTML += `<h4>${temp}°F</h4>`
+        const tempUnit = currentMeasure.temperature_2m
+        strHTML += `<h4>${temp}${tempUnit}</h4>`
         document.querySelector("#divCurrentTemp").innerHTML = strHTML
 
         //for precipitation column in divCurrent
         strHTML = "" //resetting variable
         const precip = current.precipitation
-        strHTML += `<h4>${precip}</h4>`
+        const precipMeasure = currentMeasure.precipitation
+
+        if (precipMeasure == "inch") { //this condition is purely for formatting purposes. 
+            strHTML += `<h4>${precip} inches</h4>`
+        } else {
+            strHTML += `<h4>${precip} ${precipMeasure}</h4>`
+        }
+
         document.querySelector("#divCurrentPrecip").innerHTML = strHTML
 
         //for weather code column in divCurrent
@@ -259,6 +269,8 @@ function setUserTempSettings() {
     }
 
     localStorage.setItem("tempMeasure", strTempMeasure) //setting new temp measure
+    //outputting their current selection to the website
+    document.querySelector("#txtTempMeasure").innerHTML = `<span style="color: red;">${localStorage.getItem("tempMeasure")}</span>`
 }
 
 // for user precip settings stored in local storage
@@ -266,12 +278,12 @@ function setUserPrecipSettings() {
     let strPrecipMeasure = localStorage.getItem("precipMeasure")
 
     if (strPrecipMeasure == "inch") { //if inches, change to millimeters
-        strPrecipMeasure = "millimeters"
+        strPrecipMeasure = "mm"
     } else { //if millimeters, change to inches
         strPrecipMeasure = "inch"
     }
 
-    if (strPrecipMeasure == "inch" || strPrecipMeasure == "millimeters") {
+    if (strPrecipMeasure == "inch" || strPrecipMeasure == "mm") {
         Swal.fire ({ //letting the user know their selection is saved
             position: "center",
             icon: "success",
@@ -290,6 +302,8 @@ function setUserPrecipSettings() {
     }
 
     localStorage.setItem("precipMeasure", strPrecipMeasure) //setting new precip measure
+    //outputting their current selection to the website
+    document.querySelector("#txtPrecipMeasure").innerHTML = `<span style="color: red;">${localStorage.getItem("precipMeasure")}</span>`
 } 
 
 //will grab user settings. if none, then it will use create default values for local storage
@@ -300,11 +314,17 @@ function getUserSettings() {
         localStorage.setItem("tempMeasure", strTempMeasure)
     }
 
+    //outputting their current selection to the website
+    document.querySelector("#txtTempMeasure").innerHTML = `<span style="color: red;">${localStorage.getItem("tempMeasure")}</span>`
+
     let strPrecipMeasure = localStorage.getItem("precipMeasure")
     if (strPrecipMeasure === null) {
         strPrecipMeasure = "inch" //inches, default value
         localStorage.setItem("precipMeasure", strPrecipMeasure)
     }
+
+    //outputting their current selection to the website
+    document.querySelector("#txtPrecipMeasure").innerHTML = `<span style="color: red;">${localStorage.getItem("precipMeasure")}</span>`
 }
 
 //will clear user's local storage of settings
@@ -315,7 +335,7 @@ function clearUserSettings() {
     // that should not exist after clearing local storage. This is more of a user assurance thing
     // because I can not foresee why this would not work.
     if (localStorage.getItem("tempMeasure") === "fahrenheit" || localStorage.getItem("tempMeasure") === "celsius" ||
-        localStorage.getItem("precipMeasure") === "inch" || localStorage.getItem("precipMeasure") === "millimeters") {
+        localStorage.getItem("precipMeasure") === "inch" || localStorage.getItem("precipMeasure") === "mm") {
         Swal.fire ({
             position: "center",
             icon: "error",
@@ -332,4 +352,8 @@ function clearUserSettings() {
             timer: 1500
         })
     }
+
+    //outputs the users cleared data, which would be null. reassurance, y'know
+    document.querySelector("#txtPrecipMeasure").innerHTML = `<span style="color: red;">${localStorage.getItem("precipMeasure")}</span>`
+    document.querySelector("#txtTempMeasure").innerHTML = `<span style="color: red;">${localStorage.getItem("tempMeasure")}</span>`
 }
