@@ -15,7 +15,7 @@ async function gatherData() {
             floLongitude = position.coords.longitude
 
             //this is for timezone capture via TimezoneDB
-            const objResponse = await fetch(`http://api.timezonedb.com/v2.1/get-time-zone?key=GSWUCIUB70IF&format=json&by=position&lat=${floLatitude}&lng=${floLongitude}`)
+            const objResponse = await fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=GSWUCIUB70IF&format=json&by=position&lat=${floLatitude}&lng=${floLongitude}`)
 
             if (!objResponse.ok) {
                 throw new Error(`HTTP Error Status: ${objResponse.status}`)
