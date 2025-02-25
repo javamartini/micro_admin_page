@@ -324,34 +324,3 @@ function getUserSettings() {
     //outputting their current selection to the website
     document.querySelector("#txtPrecipMeasure").innerHTML = `<span style="color: red;">${localStorage.getItem("precipMeasure")}</span>`
 }
-
-//will clear user's local storage of settings
-function clearUserSettings() {
-    localStorage.clear()
-
-    // I figure a good way to test if there is still local storage is to try and get some
-    // that should not exist after clearing local storage. This is more of a user assurance thing
-    // because I can not foresee why this would not work.
-    if (localStorage.getItem("tempMeasure") === "fahrenheit" || localStorage.getItem("tempMeasure") === "celsius" ||
-        localStorage.getItem("precipMeasure") === "inch" || localStorage.getItem("precipMeasure") === "mm") {
-        Swal.fire ({
-            position: "center",
-            icon: "error",
-            title: "Error! Something went terribly wrong.",
-            showConfirmButton: false,
-            timer: 1500
-        })
-    } else {
-        Swal.fire ({
-            position: "center",
-            icon: "success",
-            title: "Successfully cleared user settings!",
-            showConfirmButton: false,
-            timer: 1500
-        })
-    }
-
-    //outputs the users cleared data, which would be null. reassurance, y'know
-    document.querySelector("#txtPrecipMeasure").innerHTML = `<span style="color: red;">${localStorage.getItem("precipMeasure")}</span>`
-    document.querySelector("#txtTempMeasure").innerHTML = `<span style="color: red;">${localStorage.getItem("tempMeasure")}</span>`
-}
