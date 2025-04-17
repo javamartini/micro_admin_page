@@ -1,5 +1,6 @@
 # Eclipse IDE artifact
 .project
+.settings
 
 # NodeJS artifacts
 node_modules/
