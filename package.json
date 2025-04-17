@@ -1,0 +1,20 @@
+{
+  "name": "micro8deb_admin_site",
+  "version": "1.0.0",
+  "description": "The micro8deb site featuring administration, weather application, and redirections to services.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/javamartini/micro_admin_page.git"
+  },
+  "author": "Javontae Martin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/javamartini/micro_admin_page/issues"
+  },
+  "homepage": "https://github.com/javamartini/micro_admin_page#readme"
+}
