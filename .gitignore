@@ -1,0 +1,5 @@
+# Eclipse IDE artifact
+.project
+
+# NodeJS artifacts
+node_modules/
