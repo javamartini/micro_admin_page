@@ -2,15 +2,15 @@
 name: Prettier Checker
 on: push
 jobs:
-    formatting-testing:
-        name: Prettier
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v4
-            - name: Install nodejs
-              run: sudo apt install nodejs
-            - name: Set tidy configuration
-              run: npm install --save-dev --save-exact prettier
-            - name: Prettier check
-              run: npx prettier . --check
+  formatting-testing:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Install nodejs
+        run: sudo apt install nodejs
+      - name: Set tidy configuration
+        run: npm install --save-dev --save-exact prettier
+      - name: Prettier check
+        run: npx prettier . --check
