@@ -1,0 +1,3 @@
+# ignore artifacts
+.github/workflows/prettier.yml
+.prettierrc.yml

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>MicroAdmin Login</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+	</head>
+	<body>
+		<div style="display: flex; justify-content: center; align-items: center; height: 100vh">
+			<!-- login form -->
+			<form id="frmLogin">
+				<div style="flex-wrap: wrap; justify-content: center; align-items: center">
+					<h1 class="text_primary">MicroAdministration Login</h1>
+					<hr />
+				</div>
+				<p class="text_primary" style="font-size: 20px; margin-top: 10px">Email:</p>
+				<input id="txtLoginEmail" style="margin-bottom: 10px" type="text" placeholder="justinrico@email.com" aria-label="please input your email" />
+				<p class="text_primary" style="font-size: 20px">Password:</p>
+				<input id="txtLoginPassword" style="margin-bottom: 10px" type="password" placeholder="password" aria-label="please input your password" />
+				<div style="display: flex; flex-direction: row; justify-content: space-between">
+					<button id="btnLogin" class="btn_primary btn_feat" style="margin-top: 10px" type="button" aria-label="submit your login credentials">Submit to Login</button>
+					<button id="btnSwapLogin" class="btn_primary btn_feat" style="margin-top: 10px" type="button" aria-label="switch to the registration form">No account? Register here!</button>
+				</div>
+			</form>
+
+			<!-- registration form -->
+			<form id="frmRegister" style="display: none">
+				<div>
+					<h1 class="text_primary">MicroAdministration Registration</h1>
+					<hr />
+				</div>
+				<p class="text_primary" style="font-size: 20px; margin-top: 10px">Email:</p>
+				<input id="txtRegisterEmail" style="margin-bottom: 10px" type="text" placeholder="justinrico@email.com" aria-label="please input your email" />
+				<p class="text_primary" style="font-size: 20px">Password:</p>
+				<input id="txtRegisterPassword" style="margin-bottom: 10px" type="password" placeholder="password" aria-label="please input your password" />
+				<p class="text_primary" style="font-size: 20px">Confirm Password:</p>
+				<input id="txtConfirmPassword" style="margin-bottom: 10px" type="password" placeholder="password" aria-label="please confirm your password" />
+				<p class="text_primary" style="font-size: 20px">First Name:</p>
+				<input id="txtFirstName" style="margin-bottom: 10px" type="text" placeholder="Justin" aria-label="please input your first name" />
+				<p class="text_primary" style="font-size: 20px">Last Name:</p>
+				<input id="txtLastName" style="margin-bottom: 10px" type="text" placeholder="Rico" aria-label="please input your last name" />
+				<div style="display: flex; flex-direction: row; justify-content: space-between">
+					<button id="btnRegister" class="btn_primary btn_feat" style="margin-top: 10px" type="button" aria-label="submit your registration credentials">Submit to Register</button>
+					<button id="btnSwapRegister" class="btn_primary btn_feat" style="margin-top: 10px" type="button" aria-label="switch to the login form">
+						Already have an account? Login here!
+					</button>
+				</div>
+			</form>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		<script src="../js/login.js"></script>
+	</body>
+</html>
