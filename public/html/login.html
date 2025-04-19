@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>MicroAdmin Login</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <!-- login form -->
+        <form id="frmLogin">
+            <div style="flex-wrap: wrap; justify-content: center; align-items: center;">
+                <h1 class="text_primary">MicroAdministration Login</h1>
+                <hr />
+            </div>
+            <p class="text_primary" style="font-size: 20px; margin-top: 10px;">Email:</p>
+            <input id="txtLoginEmail" style="margin-bottom: 10px;" type="text" placeholder="johndoe@email.com" aria-label="please input your email">
+            <p class="text_primary" style="font-size: 20px;">Password:</p>
+            <input id="txtLoginPassword" style="margin-bottom: 10px;" type="password" placeholder="password" aria-label="please input your password">
+            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                <button id="btnLogin" class="btn_primary"  style="margin-top: 10px;" type="button" aria-label="submit to login">Submit to Login</button>
+                <button id="btnSwapLogin" class="btn_primary" style="margin-top: 10px;" type="button" aria-label="switch to registration form">No account? Register here!</button>
+            </div>
+        </form>
+
+        <form id="frmRegister" style="display: none;">
+        </form>
+    </div>
+</body>
+</html>
