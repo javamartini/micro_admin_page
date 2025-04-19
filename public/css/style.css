@@ -20,7 +20,7 @@ body {
 }
 
 .btn_primary {
-    background: #e16428;
+    background: #f96d00;
     color: #f6e9e9;
     font-size: medium;
 }
@@ -29,19 +29,32 @@ body {
     background: #f6e9e9;
 }
 
+.btn_feat {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    width: 40%;
+    opacity: .8;
+    transition: 0.3s;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.btn_feat:hover {
+    opacity: 1;
+}
+
+.btn_feat:active {
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
 .bg_primary {
     background: #272121;
 }
 
 .bg_secondary { /*this may be unused*/
     background: #363333;
-}
-
-button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 8px;
-    width: 40%;
 }
 
 form {
