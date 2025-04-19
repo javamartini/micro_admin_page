@@ -1,101 +1,101 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #272121;
-    padding: 20px
+	font-family: Arial, sans-serif;
+	line-height: 1.6;
+	background-color: #272121;
+	padding: 20px;
 }
 
 .text_primary {
-    color: #f6e9e9;
+	color: #f6e9e9;
 }
 
 .text_secondary {
-    color: #e16428;
+	color: #e16428;
 }
 
 .btn_primary {
-    background: #f96d00;
-    color: #f6e9e9;
-    font-size: medium;
+	background: #f96d00;
+	color: #f6e9e9;
+	font-size: medium;
 }
 
 .btn_secondary {
-    background: #f6e9e9;
+	background: #f6e9e9;
 }
 
 .btn_feat {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 8px;
-    width: 40%;
-    opacity: .8;
-    transition: 0.3s;
-    display: inline-block;
-    cursor: pointer;
+	padding: 8px 16px;
+	border: none;
+	border-radius: 8px;
+	width: 40%;
+	opacity: 0.8;
+	transition: 0.3s;
+	display: inline-block;
+	cursor: pointer;
 }
 
 .btn_feat:hover {
-    opacity: 1;
+	opacity: 1;
 }
 
 .btn_feat:active {
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
+	box-shadow: 0 5px #666;
+	transform: translateY(4px);
 }
 
 .bg_primary {
-    background: #272121;
+	background: #272121;
 }
 
-.bg_secondary { /*this may be unused*/
-    background: #363333;
+.bg_secondary {
+	/*this may be unused*/
+	background: #363333;
 }
 
 form {
-    background: #363333;
-    padding: 20px;
-    width: 60%;
-    justify-content: center;
-    align-items: center;
+	background: #363333;
+	padding: 20px;
+	width: 60%;
+	justify-content: center;
+	align-items: center;
 }
 
 input {
-    background: #272121;
-    color: #f6e9e9;
-    padding: 7px 18px;
-    border: none;
-    border-radius: 8px;
-    width: 95%;
-    font-size: 18px;
+	background: #272121;
+	color: #f6e9e9;
+	padding: 7px 18px;
+	border: none;
+	border-radius: 8px;
+	width: 95%;
+	font-size: 18px;
 }
 
 /* medium screen grid responsiveness */
 @media (max-width: 768px) {
-    .card {
-        width: 100%; /* one card will take up the full width of the screen */
-        margin-bottom: 20px; /* add spacing between stacked cards */
-    }
+	.card {
+		width: 100%; /* one card will take up the full width of the screen */
+		margin-bottom: 20px; /* add spacing between stacked cards */
+	}
 
-    form {
-        width: 100%;
-    }
-    
+	form {
+		width: 100%;
+	}
 }
 
 /* small screens grid responsiveness*/
 @media (max-width: 480px) {
-    .card {
-        width: 100%; /* one card will take up the full width of the screen */
-        margin-bottom: 20px; /* add spacing between stacked cards */
-    }
+	.card {
+		width: 100%; /* one card will take up the full width of the screen */
+		margin-bottom: 20px; /* add spacing between stacked cards */
+	}
 
-    form {
-        width: 100%;
-    }
+	form {
+		width: 100%;
+	}
 }
