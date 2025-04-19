@@ -24,7 +24,29 @@
 				</div>
 			</form>
 
-			<form id="frmRegister" style="display: none"></form>
+			<!-- registration form -->
+			<form id="frmRegister" style="display: none">
+				<div>
+					<h1 class="text_primary">MicroAdministration Registration</h1>
+					<hr />
+				</div>
+				<p class="text_primary" style="font-size: 20px; margin-top: 10px">Email:</p>
+				<input id="txtRegisterEmail" style="margin-bottom: 10px" type="text" placeholder="johndoe@email.com" aria-label="please input your email" />
+				<p class="text_primary" style="font-size: 20px">Password:</p>
+				<input id="txtRegisterPassword" style="margin-bottom: 10px" type="password" placeholder="password" aria-label="please input your password" />
+				<p class="text_primary" style="font-size: 20px">Confirm Password:</p>
+				<input id="txtConfirmPassword" style="margin-bottom: 10px" type="password" placeholder="password" aria-label="please confirm your password" />
+				<p class="text_primary" style="font-size: 20px">First Name:</p>
+				<input id="txtFirstName" style="margin-bottom: 10px" type="text" placeholder="text" aria-label="please input your first name" />
+				<p class="text_primary" style="font-size: 20px">Last Name:</p>
+				<input id="txtLastName" style="margin-bottom: 10px" type="text" placeholder="text" aria-label="please input your last name" />
+				<div style="display: flex; flex-direction: row; justify-content: space-between">
+					<button id="btnRegister" class="btn_primary btn_feat" style="margin-top: 10px" type="button" aria-label="submit your registration credentials">Submit to Register</button>
+					<button id="btnSwapRegister" class="btn_primary btn_feat" style="margin-top: 10px" type="button" aria-label="switch to the login form">
+						Already have an account? Login here!
+					</button>
+				</div>
+			</form>
 		</div>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 		<script src="../js/login.js"></script>
