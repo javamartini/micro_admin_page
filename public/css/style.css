@@ -76,8 +76,37 @@ input {
 	font-size: 18px;
 }
 
-/* medium screen grid responsiveness */
-@media (max-width: 768px) {
+.nav {
+	overflow: hidden;
+	background-color: #363333;
+}
+
+.nav a {
+	float: left;
+	display: block;
+	color: #f6e9e9;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.nav a:hover {
+	background-color: #f6e9e9;
+	color: #272121;
+}
+
+.nav a.active {
+	background-color: #e16428;
+	color: #f6e9e9;
+}
+
+.nav .icon {
+	display: none;
+}
+
+/* small screen responsiveness */
+@media screen and (max-width: 600px) {
 	.card {
 		width: 100%; /* one card will take up the full width of the screen */
 		margin-bottom: 20px; /* add spacing between stacked cards */
@@ -85,17 +114,30 @@ input {
 
 	form {
 		width: 100%;
+	}
+
+	.nav a:not(:first-child) {display: none;}
+	.nav a.icon {
+		float: right;
+		display: block;
 	}
 }
 
-/* small screens grid responsiveness*/
-@media (max-width: 480px) {
-	.card {
-		width: 100%; /* one card will take up the full width of the screen */
-		margin-bottom: 20px; /* add spacing between stacked cards */
+/* small screen responsiveness */
+@media screen and (max-width: 600px) {
+	.nav.responsive {
+		position: relative;
 	}
 
-	form {
-		width: 100%;
+	.nav.responsive .icon {
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	.nav.responsive a {
+		float: none;
+		display: block;
+		text-align: left;
 	}
 }

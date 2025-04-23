@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>micro8deb Administration</title>
+	<link rel="stylesheet" type="text/css" href="../css/style.css" />
+</head>
+<body style="padding: 0">
+<!-- navbar -->
+<nav class="navbar">
+    <div class="nav" id="navbar">
+        <a href="./micro8deb_admin.html" class="active">micro8deb</a>
+        <a href="./raspberrypi5_admin.html">raspberrypi5</a>
+        <a href="./status.html">Overall Status</a>
+        <a href="https://weather.micro8deb.com">
+			<img src="../icons/arrow-up-right-from-square-solid.svg" alt="external link icon"
+				 style="width: 16px; height: 16px; margin-right: 5px; filter: invert(1);"/>
+			Micro Weather Service</a>
+		<a href="./login.html">
+			<img src="../icons/arrow-up-right-from-square-solid.svg" alt="external link icon"
+				 style="width: 16px; height: 16px; margin-right: 5px; filter: invert(1);"/>
+			Log Out</a>
+        <a href="javascript:void(0);" class="icon" onclick="responsiveNavbar()">
+            <i><img src="../icons/bars-solid.svg" alt="extend menu icon"
+					style="width: 16px; height: 16px; filter: invert(1);"/></i>
+        </a>
+    </div>
+</nav>
+<script>
+	//will create a responsive navbar depending on the screen-size
+    function responsiveNavbar() {
+        let navNavBar = document.getElementById("navbar");
+		//if navbar has class nav, add the responsive class
+        if (navNavBar.className === "nav") {
+            navNavBar.className += " responsive";
+		//if navbar does not have class nav, leave it alone
+        } else {
+            navNavBar.className = "nav";
+        }
+    }
+</script>
+</body>
+</html>
