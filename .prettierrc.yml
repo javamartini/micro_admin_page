@@ -1,7 +1,0 @@
-{
-    tabWidth: 1, 
-    useTabs: true, 
-    printWidth: 180, 
-    bracketSameLine: true, 
-    singleAttributePerLine: false 
-}

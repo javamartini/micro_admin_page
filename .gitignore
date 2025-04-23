@@ -1,6 +1,5 @@
-# Eclipse IDE artifact
-.project
-.settings
+# WebStorm IDE artifact
+.idea
 
 # NodeJS artifacts
 node_modules/
