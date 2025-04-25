@@ -1,3 +1,5 @@
+const Swal = require("sweetalert2");
+
 //regex for validation, global variables
 const regEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 const regPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
@@ -5,7 +7,7 @@ const regLetters = /([^\u0000-\u0040\u005B-\u0060\u007B-\u00BF\u02B0-\u036F\u00D
 
 //input validation for frmLogin
 document.querySelector("#btnLogin").addEventListener("click", function () {
-	//taking the value from the html input
+	//taking the value from the HTML input
 	const strEmail = document.querySelector("#txtLoginEmail").value.trim().toLowerCase();
 	const strPassword = document.querySelector("#txtLoginPassword").value;
 	
@@ -29,18 +31,18 @@ document.querySelector("#btnLogin").addEventListener("click", function () {
 		Swal.fire({
 			icon: "error",
 			title: "Error!",
-			html: strMessage,
+			html: strMessage
 		});
 	} else {
 		Swal.fire({
 			icon: "success",
 			title: "Success!",
-			text: "Everything looks good! You should be redirected shortly.",
+			text: "Everything looks good! You should be redirected shortly."
 		});
 	}
 });
 
 //swapping the login form to registration
 document.querySelector("#btnSwapLogin").addEventListener("click", function () {
-	window.location.href = 'http://localhost:8080/registration';
+	window.location.href = "http://localhost:8080/registration";
 });
