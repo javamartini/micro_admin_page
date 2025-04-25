@@ -33,13 +33,13 @@ document.querySelector("#btnRegister").addEventListener("click", function () {
 		strMessage += "<p style='margin-bottom: 5px'>The fields 'Confirm Password' and 'Password' must match.</p>";
 	}
 	
-	//input validation for first name
+	//input validation for the first name
 	if (!regLetters.test(strFirstName)) {
 		blnError = true;
 		strMessage += "<p style='margin-bottom: 5px'>Please enter a valid first name.</p>";
 	}
 	
-	//input validation for last name
+	//input validation for the last name
 	if (!regLetters.test(strLastName)) {
 		blnError = true;
 		strMessage += "<p>Please enter a valid last name.</p>";
@@ -50,7 +50,7 @@ document.querySelector("#btnRegister").addEventListener("click", function () {
 		Swal.fire({
 			icon: "error",
 			title: "Error!",
-			html: strMessage,
+			html: strMessage
 		});
 	} else {
 		//prepare a JSON to send the user data towards
@@ -62,44 +62,44 @@ document.querySelector("#btnRegister").addEventListener("click", function () {
 		};
 		
 		//send the POST request to the server
-		fetch('http://localhost:8080/registration', {
-			method: 'POST',
+		fetch("http://localhost:8080/registration", {
+			method: "POST",
 			headers: {
-				"Content-Type": "application/json",
+				"Content-Type": "application/json"
 			},
 			body: JSON.stringify(objUserData)
 		}).then(response => response.json())
-		.then(data => {
-			//if the data sent, let the user know and redirect the ussr
-			if (data.boolean === true) {
-				Swal.fire({
-					icon: "success",
-					title: data.status,
-					text: data.message,
-				}).then(() => {
-					window.location.href = 'http://localhost:8080/login';
-				});
-			} else {
-				//Something went wrong, but the server responded. The user could already have been created.
-				Swal.fire({
-					icon: "error",
-					title: data.status,
-					text: data.message,
-				})
-			}
-		}).catch (error => {
+			.then(data => {
+				//if the data sent, let the user know and redirect the ussr
+				if (data.boolean === true) {
+					Swal.fire({
+						icon: "success",
+						title: data.status,
+						text: data.message
+					}).then(() => {
+						window.location.href = "http://localhost:8080/login";
+					});
+				} else {
+					//Something went wrong, but the server responded. The user could already have been created.
+					Swal.fire({
+						icon: "error",
+						title: data.status,
+						text: data.message
+					});
+				}
+			}).catch(error => {
 			//network or critical error
 			console.error("Server error:", error);
 			Swal.fire({
 				icon: "error",
 				title: "There was a fatal error..",
-				text: "There was an error with the server. Please try again later.",
-			})
-		})
+				text: "There was an error with the server. Please try again later."
+			});
+		});
 	}
 });
 
-//swapping registration form to login
+//swapping the registration form to the login form
 document.querySelector("#btnSwapRegister").addEventListener("click", function () {
-	window.location.href = 'http://localhost:8080/login';
+	window.location.href = "http://localhost:8080/login";
 });
