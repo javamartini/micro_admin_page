@@ -1,15 +1,15 @@
-const express = require('express'); //requesting resources
-const cors = require('cors'); //cross-origin resource sharing for security
-const path = require('path');	//for navigating the filepath
-const sqlite3 = require('sqlite3'); //for accessing sqlite3 database
-const {uuidv4} = require('uuid')
-const bcryptjs = require('bcryptjs');	//for hashing passwords
+const express = require("express"); //requesting resources
+const cors = require("cors"); //cross-origin resource sharing for security
+const path = require("path");	//for navigating the filepath
+const sqlite3 = require("sqlite3"); //for accessing sqlite3 database
+const {uuidv4} = require("uuid");
+const bcryptjs = require("bcryptjs");	//for hashing passwords
 
 const HTTPS_PORT = 8080;	//listening port
 
 //db setup
 const dbSource = "db/micro_admin.db";
-const db = new sqlite3.Database(dbSource)
+const db = new sqlite3.Database(dbSource);
 
 //salt hash setup
 const intSaltRounds = 10;
@@ -17,23 +17,23 @@ const intSaltRounds = 10;
 let app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));	//for providing static content (JS, CSS, images, etc.)
+app.use(express.static(path.join(__dirname, "public")));	//for providing static content (JS, CSS, images, etc.)
 
 //specifying port for the server to listen on
 app.listen(HTTPS_PORT, () => {
-	console.log("APP LISTENING ON:", HTTPS_PORT)
-})
+	console.log("APP LISTENING ON:", HTTPS_PORT);
+});
 
 //serving login and registration content
-app.get('/login', (request, response) => {
-	response.sendFile(path.join(__dirname, 'public/html/login.html'));
-})
+app.get("/login", (request, response) => {
+	response.sendFile(path.join(__dirname, "public/html/login.html"));
+});
 
-app.get('/registration', (request, response) => {
-	response.sendFile(path.join(__dirname, 'public/html/registration.html'));
-})
+app.get("/registration", (request, response) => {
+	response.sendFile(path.join(__dirname, "public/html/registration.html"));
+});
 
-app.post('/registration', (request, response) => {
+app.post("/registration", (request, response) => {
 	let strEmail = request.body.email.trim().toLowerCase();
 	let strPassword = request.body.password;
 	strPassword = bcryptjs.hash(strPassword, intSaltRounds); //hashing the password
@@ -55,10 +55,10 @@ app.post('/registration', (request, response) => {
 			response.status(201).json({
 				status: "SUCCESS",
 				message: "USER CREATED SUCCESSFULLY"
-			}).sendFile(path.join(__dirname, 'public/html/login.html'));
+			}).sendFile(path.join(__dirname, "public/html/login.html"));
 		}
-	})
-})
+	});
+});
 
 // app.get('/', (request, response) => {
 // 	let comSelect = "SELECT * FROM tblSessions WHERE user_email = ?"
