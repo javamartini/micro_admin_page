@@ -47,15 +47,16 @@ app.post("/registration", (request, response) => {
 		if (error) {
 			console.error(error);
 			return result.status(400).json({
-				status: "ERROR INSERTING USER",
-				message: "THE USER EITHER ALREADY EXISTS, OR SOMETHING ELSE IS WRONG"
+				status: "There was an issue..",
+				message: "The server is responding, but there was an error creating your account. Could it already exist?"
 			});
 			// else, create the user and bring them back to the login page
 		} else {
 			response.status(201).json({
-				status: "SUCCESS",
-				message: "USER CREATED SUCCESSFULLY"
-			}).sendFile(path.join(__dirname, "public/html/login.html"));
+				boolean: true,
+				status: "Success!",
+				message: "Your account was successfully created!"
+			});
 		}
 	});
 });

@@ -53,14 +53,51 @@ document.querySelector("#btnRegister").addEventListener("click", function () {
 			html: strMessage,
 		});
 	} else {
-		Swal.fire({
-			icon: "success",
-			title: "Success!",
-			text: "Everything looks good! You should be redirected shortly.",
-		});
+		//prepare a JSON to send the user data towards
+		const objUserData = {
+			email: strEmail,
+			password: strPassword,
+			first_name: strFirstName,
+			last_name: strLastName
+		};
+		
+		//send the POST request to the server
+		fetch('http://localhost:8080/registration', {
+			method: 'POST',
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(objUserData)
+		}).then(response => response.json())
+		.then(data => {
+			//if the data sent, let the user know and redirect the ussr
+			if (data.boolean === true) {
+				Swal.fire({
+					icon: "success",
+					title: data.status,
+					text: data.message,
+				}).then(() => {
+					window.location.href = 'http://localhost:8080/login';
+				});
+			} else {
+				//Something went wrong, but the server responded. The user could already have been created.
+				Swal.fire({
+					icon: "error",
+					title: data.status,
+					text: data.message,
+				})
+			}
+		}).catch (error => {
+			//network or critical error
+			console.error("Server error:", error);
+			Swal.fire({
+				icon: "error",
+				title: "There was a fatal error..",
+				text: "There was an error with the server. Please try again later.",
+			})
+		})
 	}
 });
-
 
 //swapping registration form to login
 document.querySelector("#btnSwapRegister").addEventListener("click", function () {
