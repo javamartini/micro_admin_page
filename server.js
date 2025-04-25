@@ -29,8 +29,36 @@ app.get('/login', (request, response) => {
 	response.sendFile(path.join(__dirname, 'public/html/login.html'));
 })
 
+
 app.get('/registration', (request, response) => {
 	response.sendFile(path.join(__dirname, 'public/html/registration.html'));
+})
+
+app.post('/registration', (request, response) => {
+	//data they sent
+	let strEmail = request.body.email.trim().toLowerCase();
+	let strPassword = request.body.password;
+	let strFirstName = request.body.first_name;
+	let strLastName = request.body.last_name;
+	
+	const comInsert = "INSERT INTO tblUsers VALUES (?, ?, ?, ?)";
+	let arrParameters = [strEmail, strPassword, strFirstName, strLastName];
+	db.run(comInsert, arrParameters, function(error, result) {
+		//if there is an error, output the error and return error JSON
+		if (error) {
+			console.error(error);
+			return result.status(400).json({
+				status: "ERROR INSERTING USER",
+				message: "THE USER EITHER ALREADY EXISTS, OR SOMETHING ELSE IS WRONG"
+			});
+		// else, create the user and bring them back to the login page
+		} else {
+			response.status(201).json({
+				status: "SUCCESS",
+				message: "USER CREATED SUCCESSFULLY"
+			}).sendFile(path.join(__dirname, 'public/html/login.html'));
+		}
+	})
 })
 
 // app.get('/', (request, response) => {
@@ -113,7 +141,7 @@ app.get('/registration', (request, response) => {
 //
 // 	//log the time of request
 // 	const logRequest = (request, response, next) => {
-// 		console.log("REQUEST RECIEVED AT:", new Date());
+// 		console.log("REQUEST RECEIVED AT:", new Date());
 // 		next(); //pass to the next handler
 // 	}
 // }
