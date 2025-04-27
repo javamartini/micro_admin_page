@@ -24,15 +24,53 @@ app.listen(HTTPS_PORT, () => {
 	console.log("APP LISTENING ON:", HTTPS_PORT);
 });
 
-//serving login and registration content
+//serving login content
 app.get("/login", (request, response) => {
 	response.sendFile(path.join(__dirname, "public/html/login.html"));
 });
 
+//logging into user account, data from login.js
+app.post("/login", (request, response) => {
+	let strEmail = request.body.email.trim().toLowerCase();
+	let strPassword = request.body.password;
+	const comSelect = "SELECT * FROM tblUsers WHERE email = ?";
+	
+	db.get(comSelect, [strEmail], function (error, result) {
+		//if the email was not found, return error JSON
+		if (error) {
+			console.error(error);
+			return response.status(400).json({
+				status: "There was an issue..",
+				message: "The email inputted was not found. Have you registered yet?"
+			});
+		}
+		
+		//if the email was found, compare the password
+		bcryptjs.compare(strPassword, result.password, function (error, result) {
+			// if error, return authentication error JSON
+			if (error) {
+				return response.status(400).json({
+					status: "Authentication Error",
+					message: "The password inputted was wrong, please try again."
+				})
+			// else, return success JSON
+			} else {
+				return response.status(200).json({
+					boolean: true,
+					status: "Everything looks good!",
+					message: "You should be redirected shortly!"
+				});
+			}
+		})
+	})
+})
+
+//serving registration content
 app.get("/registration", (request, response) => {
 	response.sendFile(path.join(__dirname, "public/html/registration.html"));
 });
 
+//creating a user account, data from registration.js
 app.post("/registration", (request, response) => {
 	let strEmail = request.body.email.trim().toLowerCase();
 	let strPassword = request.body.password;
@@ -52,7 +90,7 @@ app.post("/registration", (request, response) => {
 			});
 			// else, create the user and bring them back to the login page
 		} else {
-			response.status(201).json({
+			return response.status(201).json({
 				boolean: true,
 				status: "Success!",
 				message: "Your account was successfully created!"

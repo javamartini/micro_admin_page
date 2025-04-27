@@ -31,11 +31,47 @@ document.querySelector("#btnLogin").addEventListener("click", function () {
 			html: strMessage,
 		});
 	} else {
-		Swal.fire({
-			icon: "success",
-			title: "Success!",
-			text: "Everything looks good! You should be redirected shortly.",
-		});
+		//prepare a JSON to send the user data
+		const objUserData = {
+			email: strEmail,
+			password: strPassword
+		}
+		
+		//send the POST request to the server
+		fetch("http://localhost:8080/login", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(objUserData)
+		}).then(response => response.json())
+			//if the data sent and was good, then let the user know and redirect the user
+			.then(data => {
+				if (data.boolean === true) {
+					Swal.fire({
+						icon: "success",
+						title: data.status,
+						text: data.message,
+					}).then(() => {
+						window.location.href = "http://localhost:8080/status"
+					})
+				} else {
+					Swal.fire({
+						icon: "error",
+						title: data.status,
+						text: data.message,
+					});
+				}
+			//if something is wrong with the server, let the user know
+			}).catch(error => {
+			//network or critical error
+			console.error("Server error:", error);
+			Swal.fire({
+				icon: "error",
+				title: "There was a fatal error..",
+				text: "There was an error with the server. Please try again later."
+			});
+		})
 	}
 });
 
