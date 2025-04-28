@@ -3,3 +3,6 @@
 
 # NodeJS artifacts
 node_modules/
+
+# Environment file
+.env
