@@ -1,7 +1,8 @@
 //regex for validation, global variables
 const regEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 const regPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
-const regLetters = /([^\u0000-\u0040\u005B-\u0060\u007B-\u00BF\u02B0-\u036F\u00D7\u00F7\u2000-\u2BFF])+/g; //only letters
+// Allow letters from any script, plus common name characters like hyphens and apostrophes
+const regLetters = /^[\p{L}\p{M}'\-]+$/u;
 
 //input validation for frmRegister
 document.querySelector("#btnRegister").addEventListener("click", function () {
