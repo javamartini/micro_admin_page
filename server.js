@@ -36,30 +36,41 @@ app.post("/login", (request, response) => {
 	const comSelect = "SELECT * FROM tblUsers WHERE email = ?";
 	
 	db.get(comSelect, [strEmail], function (error, result) {
-		//if the email was not found, return error JSON
+		//handle database errors
 		if (error) {
 			console.error(error);
+			return response.status(500).json({
+				status: "Database Error",
+				message: "An internal server error occurred."
+			});
+		//if the email was not found, tell the user
+		} else if (!result) {
 			return response.status(400).json({
-				status: "There was an issue..",
-				message: "The email inputted was not found. Have you registered yet?"
+				status: "Authentication Error",
+				message: "This email was not found. Have you registered yet?"
 			});
 		}
 		
 		//if the email was found, compare the password
-		bcryptjs.compare(strPassword, result.password, function (error, result) {
-			// if error, return authentication error JSON
+		bcryptjs.compare(strPassword, result.password, function (error, isMatch) {
+			// if error, return server authentication error
 			if (error) {
-				return response.status(400).json({
-					status: "Authentication Error",
-					message: "The password inputted was wrong, please try again."
+				return response.status(500).json({
+					status: "Server Authentication Error",
+					message: "An error occurred while authentication."
 				})
-			// else, return success JSON
+			// else if the password is incorrect, return authentication error
+			} else if (!isMatch) {
+				return response.status(400).json({
+					status: "Authentication Error!",
+					message: "This password is incorrect. Please try again!"
+				});
 			} else {
 				return response.status(200).json({
 					boolean: true,
 					status: "Everything looks good!",
 					message: "You should be redirected shortly!"
-				});
+				})
 			}
 		})
 	})
@@ -74,12 +85,12 @@ app.get("/registration", (request, response) => {
 app.post("/registration", (request, response) => {
 	let strEmail = request.body.email.trim().toLowerCase();
 	let strPassword = request.body.password;
-	strPassword = bcryptjs.hash(strPassword, intSaltRounds); //hashing the password
+	strPassword = bcryptjs.hashSync(strPassword, intSaltRounds); //hashing the password
 	let strFirstName = request.body.first_name;
 	let strLastName = request.body.last_name;
 	
 	const comInsert = "INSERT INTO tblUsers VALUES (?, ?, ?, ?)";
-	let arrParameters = [strEmail, strPassword, strFirstName, strLastName];
+	let arrParameters = [strEmail, strFirstName, strLastName, strPassword];
 	db.run(comInsert, arrParameters, function (error, result) {
 		//if there is an error, output the error and return error JSON
 		if (error) {
