@@ -28,14 +28,14 @@ document.querySelector("#btnLogin").addEventListener("click", function () {
 		Swal.fire({
 			icon: "error",
 			title: "Error!",
-			html: strMessage,
+			html: strMessage
 		});
 	} else {
 		//prepare a JSON to send the user data
 		const objUserData = {
 			email: strEmail,
 			password: strPassword
-		}
+		};
 		
 		//send the POST request to the server
 		fetch("http://localhost:8080/login", {
@@ -44,26 +44,44 @@ document.querySelector("#btnLogin").addEventListener("click", function () {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify(objUserData)
-		}).then(response => response.json())
-			//if the data sent and was good, then let the user know and redirect the user
-			.then(data => {
-				if (data.boolean === true) {
-					Swal.fire({
-						icon: "success",
-						title: data.status,
-						text: data.message,
-					}).then(() => {
-						window.location.href = "http://localhost:8080/status"
-					})
-				} else {
-					Swal.fire({
-						icon: "error",
-						title: data.status,
-						text: data.message,
+		}).then(response => response.json()).then(data => {
+			//if the data was fine, then let the user know and redirect the user
+			if (data.boolean === true) {
+				localStorage.setItem("jwt_token", data.jwt_token); //storing user session token into local storage
+				Swal.fire({
+					icon: "success",
+					title: data.status,
+					text: data.message
+					//redirect the user with the appropriate header
+				}).then(() => {
+					fetch("http://localhost:8080/status", {
+						method: "GET",
+						headers: {
+							"Authorization": `Bearer ${data.jwt_token}`
+						}
+					}).then(response => {
+						//if the response is okay, send them to the page
+						if (response.ok) {
+							window.location.replace("http://localhost:8080/status");
+							//else, throw a new error
+						} else {
+							throw new Error("AUTHORIZATION FAILED");
+						}
+					}).catch(error => {
+						console.error("ERROR:", error);
+						
 					});
-				}
+				});
+				//else, let the user know that they are unauthorized
+			} else {
+				Swal.fire({
+					icon: "error",
+					title: data.status,
+					text: data.message
+				});
+			}
 			//if something is wrong with the server, let the user know
-			}).catch(error => {
+		}).catch(error => {
 			//network or critical error
 			console.error("Server error:", error);
 			Swal.fire({
@@ -71,11 +89,11 @@ document.querySelector("#btnLogin").addEventListener("click", function () {
 				title: "There was a fatal error..",
 				text: "There was an error with the server. Please try again later."
 			});
-		})
+		});
 	}
 });
 
 //swapping the login form to registration
 document.querySelector("#btnSwapLogin").addEventListener("click", function () {
-	window.location.href = 'http://localhost:8080/registration';
+	window.location.href = "http://localhost:8080/registration";
 });
