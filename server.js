@@ -95,7 +95,7 @@ app.post("/login", (request, response) => {
 				response.status(201).json({
 					status: "Success!",
 					message: "Everything looks good! You'll be redirected soon.",
-					redirect_url: "/status"
+					redirect_url: "/"
 				});
 			}
 		});
@@ -137,7 +137,7 @@ app.post("/registration", (request, response) => {
 	});
 });
 
-app.get("/status", verifyToken, (request, response) => {
+app.get("/", verifyToken, (request, response) => {
 	if (request.user) {
 		response.status(200).sendFile(path.join(__dirname, "public/html/status.html"));
 	} else {
