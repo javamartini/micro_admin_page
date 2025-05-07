@@ -3,7 +3,7 @@ const regEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)
 const regPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
 
 //input validation for frmLogin
-document.querySelector("#btnLogin").addEventListener("click", function () {
+document.querySelector("#btnLogin").addEventListener("click", async function () {
 	//taking the value from the HTML input
 	const strEmail = document.querySelector("#txtLoginEmail").value.trim().toLowerCase();
 	const strPassword = document.querySelector("#txtLoginPassword").value;
@@ -37,59 +37,45 @@ document.querySelector("#btnLogin").addEventListener("click", function () {
 			password: strPassword
 		};
 		
-		//send the POST request to the server
-		fetch("http://localhost:8080/login", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(objUserData)
-		}).then(response => response.json()).then(data => {
-			//if the data was fine, then let the user know and redirect the user
-			if (data.boolean === true) {
-				localStorage.setItem("jwt_token", data.jwt_token); //storing user session token into local storage
-				Swal.fire({
+		//send the asynchronous POST request to the server
+		try {
+			const objResponse = await fetch("http://localhost:8080/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(objUserData)
+			})
+			
+			//store the sent json data from response
+			const objData = await objResponse.json();
+			
+			//if the response was redirection, then redirect the user to that page
+			if (objResponse.status === 201) {
+				await Swal.fire ({
 					icon: "success",
-					title: data.status,
-					text: data.message
-					//redirect the user with the appropriate header
-				}).then(() => {
-					fetch("http://localhost:8080/status", {
-						method: "GET",
-						headers: {
-							"Authorization": `Bearer ${data.jwt_token}`
-						}
-					}).then(response => {
-						//if the response is okay, send them to the page
-						if (response.ok) {
-							window.location.replace("http://localhost:8080/status");
-							//else, throw a new error
-						} else {
-							throw new Error("AUTHORIZATION FAILED");
-						}
-					}).catch(error => {
-						console.error("ERROR:", error);
-						
-					});
-				});
-				//else, let the user know that they are unauthorized
+					title: objData.status,
+					text: objData.message
+				})
+				
+				window.location.href = objData.redirect_url; //redirecting the user
+			//else, let the user know there was an error processing the post-request
 			} else {
-				Swal.fire({
+				await Swal.fire ({
 					icon: "error",
-					title: data.status,
-					text: data.message
-				});
+					title: objData.status,
+					text: objData.message
+				})
 			}
-			//if something is wrong with the server, let the user know
-		}).catch(error => {
-			//network or critical error
-			console.error("Server error:", error);
+		//if there was a network or server error, let the user know
+		} catch (error) {
+			console.error("SERVER ERROR:", error);
 			Swal.fire({
 				icon: "error",
 				title: "There was a fatal error..",
 				text: "There was an error with the server. Please try again later."
 			});
-		});
+		}
 	}
 });
 

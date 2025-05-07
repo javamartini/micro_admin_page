@@ -27,35 +27,6 @@
 	</div>
 </nav>
 <script>
-	document.querySelector("#DOMContentLoaded").addEventListener("DOMContentLoaded", function () {
-		let strToken = localStorage.getItem("jwt_token");
-		//if the token is null, and they somehow got this far, redirect them to login
-		if (!strToken) {
-			window.location.href = "./login.html";
-			//else, fetch endpoint and it's headers
-		} else {
-			fetch("http://localhost:8080/status", {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					"Authorization": `Bearer ${strToken}`
-				}
-			}).then(response => {
-				//if the response is not ok, throw the error
-				if (!response.ok) {
-					throw new Error("NETWORK RESPONSE WAS NOT OK");
-					//else, return the response in the form of a JSON
-				} else {
-					return response.json();
-				}
-				//if there was a critical network error, redirect the user and let them know
-			}).catch(error => {
-				console.error("Error:", error);
-				window.location.href = "./login.html";
-			});
-		}
-	});
-
 	function responsiveNavbar() {
 		let navNavBar = document.getElementById("navbar");
 		//if navbar has class nav, add the responsive class
