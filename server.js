@@ -137,14 +137,17 @@ app.post("/registration", (request, response) => {
 	});
 });
 
+//serving status content
 app.get("/", verifyToken, (request, response) => {
 	response.status(200).sendFile(path.join(__dirname, "public", "html", "status.html"));
 });
 
+//serving micro8deb administration content
 app.get("/micro8deb_admin", verifyToken, (request, response) => {
 	response.status(200).sendFile(path.join(__dirname, "public", "html", "micro8deb_admin.html"));
 })
 
+//serving raspberrypi5 administration content
 app.get("/raspberrypi5_admin", verifyToken, (request, response) => {
 	response.status(200).sendFile(path.join(__dirname, "public", "html", "raspberrypi5_admin.html"));
 })
