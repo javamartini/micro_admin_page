@@ -138,11 +138,7 @@ app.post("/registration", (request, response) => {
 });
 
 app.get("/", verifyToken, (request, response) => {
-	if (request.user) {
-		response.status(200).sendFile(path.join(__dirname, "public/html/status.html"));
-	} else {
-		response.status(401).json({message: "Unauthorized"});
-	}
+	response.status(200).sendFile(path.join(__dirname, "public/html/status.html"));
 });
 
 //middleware for authorizing the session identifier, finding the token in the request header, and verifying the token
