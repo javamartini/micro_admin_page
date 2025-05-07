@@ -79,7 +79,7 @@ app.post("/login", (request, response) => {
 			} else {
 				//create a jwt token
 				const strToken = jwt.sign({
-						user_id: result.user_id,
+						user_id: result.user_id
 					},
 					process.env.JWT_SECRET,
 					{
@@ -141,7 +141,7 @@ app.get("/", verifyToken, (request, response) => {
 	if (request.user) {
 		response.status(200).sendFile(path.join(__dirname, "public/html/status.html"));
 	} else {
-		response.status(401).json({ message: "Unauthorized" });
+		response.status(401).json({message: "Unauthorized"});
 	}
 });
 
@@ -168,7 +168,7 @@ function verifyToken(request, response, next) {
 				}
 			});
 		}
-	//if there was an error processing the token, output the error and redirect the user
+		//if there was an error processing the token, output the error and redirect the user
 	} catch (error) {
 		console.error("TOKEN PROCESSING ERROR:", error);
 		return response.status(500).redirect("/login");

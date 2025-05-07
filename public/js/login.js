@@ -20,7 +20,7 @@ document.querySelector("#btnLogin").addEventListener("click", async function () 
 	//input validation for password
 	if (!regPassword.test(strPassword)) {
 		blnError = true;
-		strMessage += "<p>Your password must be at least 8 characters, have 1 uppercase letter, 1 lowercase letter, and 1 number.</p>";
+		strMessage += "<p>Your password must be at least eight characters, have one uppercase letter, one lowercase letter, and one number.</p>";
 	}
 	
 	//alerts for user
@@ -45,29 +45,29 @@ document.querySelector("#btnLogin").addEventListener("click", async function () 
 					"Content-Type": "application/json"
 				},
 				body: JSON.stringify(objUserData)
-			})
+			});
 			
 			//store the sent json data from response
 			const objData = await objResponse.json();
 			
 			//if the response was redirection, then redirect the user to that page
 			if (objResponse.status === 201) {
-				await Swal.fire ({
+				await Swal.fire({
 					icon: "success",
 					title: objData.status,
 					text: objData.message
-				})
+				});
 				
 				window.location.href = objData.redirect_url; //redirecting the user
-			//else, let the user know there was an error processing the post-request
+				//else, let the user know there was an error processing the post-request
 			} else {
-				await Swal.fire ({
+				await Swal.fire({
 					icon: "error",
 					title: objData.status,
 					text: objData.message
-				})
+				});
 			}
-		//if there was a network or server error, let the user know
+			//if there was a network or server error, let the user know
 		} catch (error) {
 			console.error("SERVER ERROR:", error);
 			Swal.fire({
