@@ -141,6 +141,14 @@ app.get("/", verifyToken, (request, response) => {
 	response.status(200).sendFile(path.join(__dirname, "public/html/status.html"));
 });
 
+app.get("/micro8deb_admin", verifyToken, (request, response) => {
+	response.status(200).sendFile(path.join(__dirname, "public", "html", "micro8deb_admin.html"));
+})
+
+app.get("/raspberrypi5_admin", verifyToken, (request, response) => {
+	response.status(200).sendFile(path.join(__dirname, "public", "html", "raspberrypi5_admin.html"));
+})
+
 //middleware for authorizing the session identifier, finding the token in the request header, and verifying the token
 function verifyToken(request, response, next) {
 	//try processing the token from cookies
