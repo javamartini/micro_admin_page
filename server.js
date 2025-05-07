@@ -36,7 +36,7 @@ app.listen(HTTPS_PORT, () => {
 
 //serving login content
 app.get("/login", (request, response) => {
-	response.sendFile(path.join(__dirname, "public/html/login.html"));
+	response.sendFile(path.join(__dirname, "public", "html", "login.html"));
 });
 
 //logging into user account, data from login.js
@@ -104,7 +104,7 @@ app.post("/login", (request, response) => {
 
 //serving registration content
 app.get("/registration", (request, response) => {
-	response.sendFile(path.join(__dirname, "public/html/registration.html"));
+	response.sendFile(path.join(__dirname, "public", "html", "registration.html"));
 });
 
 //creating a user account, data from registration.js
@@ -138,7 +138,7 @@ app.post("/registration", (request, response) => {
 });
 
 app.get("/", verifyToken, (request, response) => {
-	response.status(200).sendFile(path.join(__dirname, "public/html/status.html"));
+	response.status(200).sendFile(path.join(__dirname, "public", "html", "status.html"));
 });
 
 app.get("/micro8deb_admin", verifyToken, (request, response) => {
