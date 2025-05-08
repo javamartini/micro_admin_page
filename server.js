@@ -102,6 +102,19 @@ app.post("/login", (request, response) => {
 	});
 });
 
+//the endpoint for logging out, using post because we are modifying a state, also prevents accidental trigger
+app.post("/logout", (request, response) => {
+	response.clearCookie("session_token", {
+		httpOnly: true,
+		// secure: true,	turn this on when in production
+		sameSite: "Strict"
+	});
+	
+	response.status(200).json({
+		redirect_url: "/login?loggedOut=true"
+	});
+});
+
 //serving registration content
 app.get("/registration", (request, response) => {
 	response.sendFile(path.join(__dirname, "public", "html", "registration.html"));

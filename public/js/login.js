@@ -1,3 +1,15 @@
+//if there is a loggedOut parameter sent, then tell the user they have logged out
+const parameters = new URLSearchParams(window.location.search); //global variable
+if (parameters.get("loggedOut") === "true") {
+	Swal.fire({
+		icon: "success",
+		title: "Logged Out",
+		text: "You have been logged out successfully."
+	});
+	
+	history.replaceState(null, "", window.location.pathname); //will remove the loggedOut parameter
+}
+
 //regex for validation, global variables
 const regEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 const regPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
