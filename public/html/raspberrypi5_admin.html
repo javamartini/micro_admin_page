@@ -9,14 +9,14 @@
 <!-- navbar -->
 <nav class="navbar">
 	<div class="nav" id="navbar">
-		<a href="./micro8deb_admin.html">micro8deb</a>
-		<a href="./raspberrypi5_admin.html" class="active">raspberrypi5</a>
-		<a href="./status.html">Overall Status</a>
+		<a href="/micro8deb_admin">micro8deb</a>
+		<a href="/raspberrypi5_admin" class="active">raspberrypi5</a>
+		<a href="/">Overall Status</a>
 		<a href="https://weather.micro8deb.com">
 			<img src="../icons/arrow-up-right-from-square-solid.svg" alt="external link icon"
 				 style="width: 16px; height: 16px; margin-right: 5px; filter: invert(1);"/>
 			Micro Weather Service</a>
-		<a href="./login.html">
+		<a href="./logout" id="linkLogout">
 			<img src="../icons/arrow-up-right-from-square-solid.svg" alt="external link icon"
 				 style="width: 16px; height: 16px; margin-right: 5px; filter: invert(1);"/>
 			Log Out</a>
@@ -38,6 +38,29 @@
 			navNavBar.className = "nav";
 		}
 	}
+
+	//logging out the user
+	document.getElementById("linkLogout").addEventListener("click", async function (event) {
+		event.preventDefault(); //prevents normal link behavior
+		try {
+			const objResponse = await fetch("http://localhost:8080/logout", {
+				method: "POST"
+			});
+
+			const objData = await objResponse.json(); //grab the data from the response
+
+			if (objResponse.status === 200) {
+				//if the response status is 200, redirect them with a parameter
+				window.location.href = objData.redirect_url;
+			} else {
+				//else, let the user know that the logout failed for some odd, strange, and unexplainable reason ;)
+				alert("For some reason, the logout has failed.");
+			}
+		} catch (error) {
+			//if there was a network or server error, let the user know
+			alert("There was a fatal error with the server when trying to log out out.");
+		}
+	});
 </script>
 </body>
 </html>
