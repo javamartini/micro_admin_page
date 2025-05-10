@@ -2,11 +2,11 @@
 function responsiveNavbar() {
 	let navNavBar = document.getElementById("navbar");
 	//if navbar has class nav, add the responsive class
-	if (navNavBar.className === "nav") {
-		navNavBar.className += " responsive";
+	if (navNavBar.classList.contains("nav")) {
+		navNavBar.classList.add("responsive");
 		//if navbar does not have class nav, leave it alone
 	} else {
-		navNavBar.className = "nav";
+		navNavBar.classList.remove("responsive");
 	}
 }
 
