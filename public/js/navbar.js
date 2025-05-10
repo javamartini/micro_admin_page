@@ -29,6 +29,6 @@ document.getElementById("linkLogout").addEventListener("click", async function (
 		}
 	} catch (error) {
 		//if there was a network or server error, let the user know
-		alert("There was a fatal error with the server when trying to log out out.");
+		alert("There was a fatal error with the server when trying to log out.");
 	}
 });
